@@ -339,9 +339,12 @@ const tests: Record<keyof TestContext["endpoints"], (t: ExecutionContext<TestCon
     },
 
     openSettingsFolder: async (t) => {
-        const openItemSpy: sinon.SinonSpy = t.context.mocks.electron.shell.openItem;
         await t.context.endpoints.openSettingsFolder();
-        t.true(openItemSpy.alwaysCalledWith(t.context.ctx.locations.userDataDir));
+        t.true(
+            t.context.mocks.electron.shell.openPath.alwaysCalledWith(
+                t.context.ctx.locations.userDataDir,
+            ),
+        );
     },
 
     patchBaseConfig: async (t) => {
@@ -528,14 +531,14 @@ async function buildMocks() {
                     };
                     return openExternal;
                 })(),
-                openItem: sinon.spy(),
+                openPath: sinon.stub().returns(Promise.resolve()),
             },
             nativeImage: {
                 createFromPath: sinon.stub().returns({toPNG: sinon.spy}),
                 createFromBuffer: sinon.stub(),
             },
-        } as any,
-    };
+        },
+    } as const;
 }
 
 test.beforeEach(async (t) => {

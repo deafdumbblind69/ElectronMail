@@ -225,6 +225,7 @@
     "cssnano": "4.1.10",
     "electron": "8.0.1",
     "electron-builder": "22.3.2",
+    "electron-nightly": "10.0.0-nightly.20200216",
     "escape-string-regexp": "2.0.0",
     "eslint": "6.8.0",
     "exports-loader": "0.7.0",
